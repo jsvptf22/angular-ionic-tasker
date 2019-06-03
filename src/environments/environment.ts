@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverRoute: 'http://18.191.110.107/api'
+  serverRoute: 'http://127.0.0.1:8000/api'
 };
 
 /*
