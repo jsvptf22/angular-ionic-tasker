@@ -1,0 +1,21 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>dashboard usuario: {{user}}</ion-title>
+		<ion-button (click)="logout()">Logout</ion-button>
+
+	</ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<app-form></app-form>
+			</ion-col>
+			<ion-col>
+				<app-list></app-list>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,14 @@
+<ion-card>
+	<ion-item>
+		<ion-label position="floating">Nombre</ion-label>
+		<ion-input [(ngModel)]="name"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label position="floating">Descripción</ion-label>
+		<ion-textarea [(ngModel)]="description"></ion-textarea>
+	</ion-item>
+	<ion-item>
+		<ion-button color="primary" (click)="save()">Guardar</ion-button>
+	</ion-item>
+</ion-card>
