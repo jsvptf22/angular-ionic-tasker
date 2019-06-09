@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
     email: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
+  checkForm: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.checkSession();
+    this.checkForm = false;
   }
 
   checkSession() {
@@ -32,6 +34,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.checkForm = true;
+
     if (!this.loginForm.valid) {
       return false;
     }

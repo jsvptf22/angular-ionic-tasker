@@ -9,34 +9,67 @@
                     </ion-card-header>
 
                     <ion-card-content>
-                        <ion-item>
-                            <ion-label position="floating">Nombre</ion-label>
-                            <ion-input [(ngModel)]="name"></ion-input>
-                        </ion-item>
+                        <form [formGroup]="registerForm">
 
-                        <ion-item>
-                            <ion-label position="floating">Correo</ion-label>
-                            <ion-input [(ngModel)]="email"></ion-input>
-                        </ion-item>
+                            <ion-item>
+                                <ion-label position="floating">Nombre</ion-label>
+                                <ion-input formControlName="name"></ion-input>
+                            </ion-item>
+                            <div *ngIf="checkForm || (name.invalid && (name.dirty || name.touched))">
+                                <div *ngIf="name.errors && name.errors.required">
+                                    Debe indicar su nombre.
+                                </div>
+                            </div>
 
-                        <ion-item>
-                            <ion-label position="floating">Contraseña</ion-label>
-                            <ion-input [(ngModel)]="password" type="password"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating">Confirmar contraseña</ion-label>
-                            <ion-input [(ngModel)]="password_confirmation" type="password"></ion-input>
-                        </ion-item>
+                            <ion-item>
+                                <ion-label position="floating">Correo</ion-label>
+                                <ion-input formControlName="email"></ion-input>
+                            </ion-item>
+                            <div *ngIf="checkForm || (email.invalid && (email.dirty || email.touched))">
+                                <div *ngIf="email.errors && email.errors.required">
+                                    Debe indicar su usuario de correo.
+                                </div>
+                                <div *ngIf="email.errors && email.errors.email">
+                                    Debe indicar un correo válido.
+                                </div>
+                            </div>
 
-                        <ion-row>
-                            <ion-col size="6">
-                                <ion-button color="tertiary" expand="block" routerLink="/access/login">Iniciar sesión
-                                </ion-button>
-                            </ion-col>
-                            <ion-col size="6">
-                                <ion-button color="primary" expand="block" (click)="register()">Registrarse</ion-button>
-                            </ion-col>
-                        </ion-row>
+                            <ion-item>
+                                <ion-label position="floating">Contraseña</ion-label>
+                                <ion-input formControlName="password" type="password"></ion-input>
+                            </ion-item>
+                            <div *ngIf="checkForm || (password.invalid && (password.dirty || password.touched))">
+                                <div *ngIf="password.errors && password.errors.required">
+                                    Debe indicar su contraseña.
+                                </div>
+                                <div *ngIf="password.errors && password.errors.minlength">
+                                    Debe contener minimo 8 caracteres
+                                </div>
+                            </div>
+                            <ion-item>
+                                <ion-label position="floating">Confirmar contraseña</ion-label>
+                                <ion-input formControlName="passwordConfirmation" type="password"></ion-input>
+                            </ion-item>
+                            <div *ngIf="checkForm && passwordConfirmation.errors && passwordConfirmation.errors.required">
+                                Debe indicar su contraseña.
+                            </div>
+                            <div
+                                *ngIf="(checkForm || passwordConfirmation.value) && registerForm.errors && registerForm.errors.notSame">
+                                Las contraseñas no coinciden.
+                            </div>
+
+                            <ion-row>
+                                <ion-col size="6">
+                                    <ion-button color="tertiary" expand="block" routerLink="/access/login">Iniciar
+                                        sesión
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="6">
+                                    <ion-button color="primary" expand="block" (click)="register()">Registrarse
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </form>
                     </ion-card-content>
                 </ion-card>
             </ion-col>

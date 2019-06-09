@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegisterService } from '../../services/register.service';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { Router } from '@angular/router';
@@ -9,10 +10,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
+  registerForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8)
+    ]),
+    passwordConfirmation: new FormControl('', Validators.required),
+  }, this.checkPasswords);
+  checkForm: boolean;
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -22,6 +32,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.checkSession();
+    this.checkForm = false;
   }
 
   checkSession() {
@@ -31,24 +42,37 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
-    let data = {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      password_confirmation: this.password_confirmation
+    this.checkForm = true;
+
+    if (!this.registerForm.valid) {
+      return false;
     }
 
-    this.registerService.create(data).subscribe((response: any) => {
+    this.registerService.create({
+      name: this.registerForm.value.name,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+      passwordConfirmation: this.registerForm.value.passwordConfirmation
+    }).subscribe((response: any) => {
       if (response.data) {
-        alert("usuario creado correctamente");
-        this.name = '';
-        this.email = '';
-        this.password = '';
-        this.password_confirmation = '';
+        alert('usuario creado correctamente');
+        this.registerForm.reset();
       } else if (response.error) {
         alert(response.message);
       }
-    })
+    });
   }
+
+  checkPasswords(group: FormGroup) {
+    const pass = group.controls.password.value;
+    const confirmPass = group.controls.passwordConfirmation.value;
+
+    return pass === confirmPass ? null : { notSame: true };
+  }
+
+  get name() { return this.registerForm.get('name'); }
+  get email() { return this.registerForm.get('email'); }
+  get password() { return this.registerForm.get('password'); }
+  get passwordConfirmation() { return this.registerForm.get('passwordConfirmation'); }
 
 }

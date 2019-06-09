@@ -14,7 +14,7 @@
 								<ion-label position="floating">Correo</ion-label>
 								<ion-input formControlName="email"></ion-input>
 							</ion-item>
-							<div *ngIf="email.invalid && (email.dirty || email.touched)">
+							<div *ngIf="checkForm || (email.invalid && (email.dirty || email.touched))">
 								<div *ngIf="email.errors.required">
 									Debe indicar el correo.
 								</div>
@@ -23,7 +23,7 @@
 								<ion-label position="floating">Contraseña</ion-label>
 								<ion-input formControlName="password" type="password"></ion-input>
 							</ion-item>
-							<div *ngIf="password.invalid && (password.dirty || password.touched)">
+							<div *ngIf="checkForm || (password.invalid && (password.dirty || password.touched))">
 								<div *ngIf="password.errors.required">
 									Debe indicar la contraseña.
 								</div>
