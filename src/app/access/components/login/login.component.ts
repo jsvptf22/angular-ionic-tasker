@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { AuthorizationService } from 'src/app/services/authorization.service';
@@ -9,8 +10,10 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  email: string;
-  password: string;
+  loginForm = new FormGroup({
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+  });
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -29,7 +32,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginService.checkCredentials(this.email, this.password).subscribe((response: any) => {
+    if (!this.loginForm.valid) {
+      return false;
+    }
+
+    this.loginService.checkCredentials(
+      this.loginForm.value.email,
+      this.loginForm.value.password
+    ).subscribe((response: any) => {
       if (response.data) {
         this.loginService.login(response.data);
       } else if (response.error) {
@@ -37,4 +47,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  get email() { return this.loginForm.get('email'); }
+  get password() { return this.loginForm.get('password'); }
 }
