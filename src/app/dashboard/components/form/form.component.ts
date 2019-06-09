@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SaveEditService } from '../../services/save-edit.service';
 import { TasksService } from '../../services/tasks.service';
 import { Storage } from '@ionic/storage';
@@ -9,6 +9,8 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+  @Output() toogleForm = new EventEmitter<boolean>();
+
   id: number;
   name: string;
   description: string;
@@ -24,7 +26,7 @@ export class FormComponent implements OnInit {
 
     this.storage.get('session_data').then(data => {
       this.saveEditService.setSessionData(data);
-    })
+    });
   }
 
   getActive() {
@@ -33,6 +35,10 @@ export class FormComponent implements OnInit {
         this.id = task.id;
         this.name = task.name;
         this.description = task.description;
+      } else {
+        this.id = null;
+        this.name = null;
+        this.description = null;
       }
     });
   }
@@ -42,13 +48,23 @@ export class FormComponent implements OnInit {
       .save(this.id, this.name, this.description)
       .subscribe((response: any) => {
         if (response.id) {
-          if(this.id){
+          if (this.id) {
             this.tasksService.updateTask(this.id, response);
-          }else{
+          } else {
             this.tasksService.add(response);
             this.name = this.description = '';
           }
+          this.afterSave();
         }
-      })
+      });
+  }
+
+  afterSave() {
+    this.saveEditService.setActive({});
+    this.toogleForm.emit(true);
+  }
+
+  cancel() {
+    this.afterSave();
   }
 }

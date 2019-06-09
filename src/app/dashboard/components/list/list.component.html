@@ -2,12 +2,14 @@
     <ion-card *ngFor="let task of list">
         <ion-card-header>
             {{task.name}}
-            <ion-button color="primary" size="small" (click)="editTask(task.id)">
-                <ion-icon slot="icon-only" name="create"></ion-icon>
-            </ion-button>
-            <ion-button color="danger" size="small" (click)="presentAlertConfirm(task.id)">
-                <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
+            <div style="float: right">
+                <ion-button color="primary" size="small" (click)="editTask(task.id)">
+                    <ion-icon slot="icon-only" name="create"></ion-icon>
+                </ion-button>
+                <ion-button color="danger" size="small" (click)="presentAlertConfirm(task.id)">
+                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+            </div>
         </ion-card-header>
         <ion-card-content>
             {{task.description}}

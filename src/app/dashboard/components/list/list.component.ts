@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { TasksService } from '../../services/tasks.service';
 import { AlertController } from '@ionic/angular';
 import { SaveEditService } from '../../services/save-edit.service';
@@ -9,6 +9,7 @@ import { SaveEditService } from '../../services/save-edit.service';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit,OnDestroy {
+  @Output() toogleForm = new EventEmitter<boolean>();
   list: object[];
 
   constructor(
@@ -32,8 +33,9 @@ export class ListComponent implements OnInit,OnDestroy {
   }
 
   editTask(taskId){
-    let task = this.list.find((t: any) => t.id === taskId);
+    const task = this.list.find((t: any) => t.id === taskId);
     this.saveEditService.setActive(task);
+    this.toogleForm.emit(true);
   }
 
   deleteTask(taskId){

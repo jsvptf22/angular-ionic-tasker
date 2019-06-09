@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+  showForm: boolean;
   user: object;
   constructor(
     private authorizationService: AuthorizationService,
@@ -16,6 +17,7 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
     this.getUserData();
+    this.showForm = false;
   }
 
   logout() {
@@ -25,6 +27,10 @@ export class DashboardPage implements OnInit {
   getUserData() {
     this.storage.get('session_data').then(data => {
       this.user = data.name;
-    })
+    });
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
   }
 }

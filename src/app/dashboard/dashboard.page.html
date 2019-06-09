@@ -12,12 +12,23 @@
 <ion-content>
 	<ion-grid>
 		<ion-row>
-			<ion-col size-sm="12" size-md="4">
-				<app-form></app-form>
+			<ion-col [hidden]="showForm">
+				<app-list (toogleForm)="toggleForm()"></app-list>
 			</ion-col>
-			<ion-col size-sm="12" size-md="8">
-				<app-list></app-list>
+			<ion-col [hidden]="!showForm">
+				<app-form (toogleForm)="toggleForm()"></app-form>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
 </ion-content>
+<ion-footer [hidden]="showForm">
+	<ion-toolbar>
+		<ion-grid>
+			<ion-row>
+				<ion-col>
+					<ion-button expand="block" (click)="toggleForm()">Crear tarea</ion-button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</ion-toolbar>
+</ion-footer>
