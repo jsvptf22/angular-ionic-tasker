@@ -29,8 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let email = 'admin@test.com';
-    let password = 'toptal';
     this.loginService.checkCredentials(this.email, this.password).subscribe((response: any) => {
       if (response.data) {
         this.loginService.login(response.data);
