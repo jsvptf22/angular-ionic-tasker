@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { AuthorizationService } from './services/authorization.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -22,7 +24,8 @@ import { AuthorizationService } from './services/authorization.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     StatusBar,
