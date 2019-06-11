@@ -1,4 +1,4 @@
-<div *ngIf="list">
+<div *ngIf="list.length; else emptyList">
     <ion-card *ngFor="let task of list">
         <ion-card-header>
             {{task.name}}
@@ -16,3 +16,11 @@
         </ion-card-content>
     </ion-card>
 </div>
+
+<ng-template #emptyList>
+    <ion-card>
+        <ion-card-content>
+            No existen tareas.
+        </ion-card-content>
+    </ion-card>
+</ng-template>

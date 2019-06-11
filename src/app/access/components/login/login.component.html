@@ -15,7 +15,7 @@
 								<ion-input formControlName="email"></ion-input>
 							</ion-item>
 							<div *ngIf="checkForm || (email.invalid && (email.dirty || email.touched))">
-								<div *ngIf="email.errors.required">
+								<div *ngIf="email.errors && email.errors.required">
 									Debe indicar el correo.
 								</div>
 							</div>
@@ -24,7 +24,7 @@
 								<ion-input formControlName="password" type="password"></ion-input>
 							</ion-item>
 							<div *ngIf="checkForm || (password.invalid && (password.dirty || password.touched))">
-								<div *ngIf="password.errors.required">
+								<div *ngIf="password.errors && password.errors.required">
 									Debe indicar la contraseña.
 								</div>
 							</div>

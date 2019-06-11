@@ -4,20 +4,31 @@
 			<ion-card>
 				<ion-card-header>
 					<ion-card-title>Tarea</ion-card-title>
-					<ion-card-subtitle>{{id ? 'Actualizando' : 'Creando'}} Tarea</ion-card-subtitle>
+					<ion-card-subtitle>{{id.value ? 'Actualizando' : 'Creando'}} Tarea</ion-card-subtitle>
 				</ion-card-header>
 
 				<ion-card-content>
-					<ion-item>
-						<ion-label position="floating">Nombre</ion-label>
-						<ion-input [(ngModel)]="name"></ion-input>
-					</ion-item>
+					<form [formGroup]="taskForm">
+						<ion-item>
+							<ion-label position="floating">Nombre</ion-label>
+							<ion-input formControlName="name"></ion-input>
+						</ion-item>
+						<div *ngIf="checkForm || (name.invalid && (name.dirty || name.touched))">
+							<div *ngIf="name.errors && name.errors.required">
+								Debe indicar el nombre.
+							</div>
+						</div>
 
-					<ion-item>
-						<ion-label position="floating">Descripción</ion-label>
-						<ion-textarea [(ngModel)]="description"></ion-textarea>
-					</ion-item>
-
+						<ion-item>
+							<ion-label position="floating">Descripción</ion-label>
+							<ion-textarea formControlName="description"></ion-textarea>
+						</ion-item>
+						<div *ngIf="checkForm || (description.invalid && (description.dirty || description.touched))">
+							<div *ngIf="description.errors && description.errors.required">
+								Debe indicar la descripción.
+							</div>
+						</div>
+					</form>
 					<ion-row>
 						<ion-col size="6">
 							<ion-button color="danger" (click)="cancel()" expand="block">Cancelar</ion-button>
@@ -25,7 +36,7 @@
 						</ion-col>
 						<ion-col size="6">
 							<ion-button color="primary" (click)="save()" expand="block">
-								{{id ? 'Actualizar' : 'Crear'}}
+								{{id.value ? 'Actualizar' : 'Crear'}}
 							</ion-button>
 
 						</ion-col>
